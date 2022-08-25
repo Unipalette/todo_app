@@ -1,4 +1,6 @@
 import { useState } from "react";
+import BtnDelete from "./BtnDelete";
+import "./App.css";
 
 function App() {
   const [toDo, setToDo] = useState("");
@@ -20,6 +22,12 @@ function App() {
     const nextToDos = toDos.filter((toDo) => toDo !== toDos[toDoId]);
     setToDos(nextToDos);
   }
+
+  function onCheck(e) {
+    const toDo = e.target;
+    console.log(toDo);
+    toDo.classList.toggle("done");
+  }
   return (
     <>
       <h1>MY TO DOS ({toDos.length})</h1>
@@ -35,8 +43,11 @@ function App() {
       </form>
       <ul>
         {toDos.map((item, index) => (
-          <li key={index} id={index} onClick={onDelete}>
-            {index + 1}. {item}
+          <li key={index} id={index}>
+            <p onClick={onCheck}>
+              {index + 1}. {item}
+            </p>
+            <BtnDelete id={index} onClick={onDelete} />
           </li>
         ))}
       </ul>
