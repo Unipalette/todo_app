@@ -1,35 +1,45 @@
 import { useState } from "react";
+
 function App() {
-  const [inputValue, setInputValue] = useState("");
-  const [li, setList] = useState([]);
-  function onInput(e) {
-    const nextValue = e.target.value;
-    setInputValue(nextValue);
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+
+  function onChange(e) {
+    e.preventDefault();
+    const nextInputValue = e.target.value;
+    setToDo(nextInputValue);
   }
+
   function onSubmit(e) {
-    // usestate 배열에 추가 하기
     e.preventDefault();
-    /*   const newLi = [...li, inputValue];
-    setList(newLi);
-    li.map((todo) => {
-      return <li>{todo}</li>;
-    });
-    console.log(li); */
-    const toDoList = document.querySelector(".toDoList");
-    e.preventDefault();
-    const li = document.createElement("li");
-    li.innerText = inputValue;
-    toDoList.append(li);
-    setInputValue("");
+    setToDos((currentArray) => [...currentArray, toDo]);
+    setToDo("");
+  }
+  function onDelete(e) {
+    const toDoId = e.target.id;
+    const nextToDos = toDos.filter((toDo) => toDo !== toDos[toDoId]);
+    setToDos(nextToDos);
   }
   return (
     <>
-      <h1>안녕</h1>
-      <ul className="toDoList"></ul>
+      <h1>MY TO DOS ({toDos.length})</h1>
+      <ul id="list"></ul>
       <form onSubmit={onSubmit}>
-        <input type="text" value={inputValue} onChange={onInput} />
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="할 일을 입력하세요."
+        />
         <button type="submit">확인</button>
       </form>
+      <ul>
+        {toDos.map((item, index) => (
+          <li key={index} id={index} onClick={onDelete}>
+            {index + 1}. {item}
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
