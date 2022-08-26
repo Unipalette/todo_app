@@ -1,9 +1,7 @@
-function BtnDelete({ id, onClick }) {
+function BtnDelete({ id, onClick, className }) {
   return (
     <>
-      <button id={id} onClick={onClick}>
-        지우기
-      </button>
+      <button className={className} id={id} onClick={onClick}></button>
     </>
   );
 }

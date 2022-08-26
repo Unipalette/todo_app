@@ -5,7 +5,7 @@ import "./App.css";
 function App() {
   const [toDo, setToDo] = useState("");
   const [toDos, setToDos] = useState([]);
-
+  const [doneList, setDoneList] = useState([]);
   function onChange(e) {
     e.preventDefault();
     const nextInputValue = e.target.value;
@@ -23,35 +23,33 @@ function App() {
     setToDos(nextToDos);
   }
 
-  function onCheck(e) {
-    const toDo = e.target;
-    console.log(toDo);
-    toDo.classList.toggle("done");
-  }
+  function onCheck(e) {}
   return (
-    <>
-      <h1>MY TO DOS ({toDos.length})</h1>
-      <ul id="list"></ul>
+    <div className="all">
+      <div className="box">
+        <h1>오늘 할 일</h1>
+        <ul>
+          {toDos.map((item, index) => (
+            <li key={index} id={index}>
+              <p id={index} onClick={onCheck}>
+                {item}
+                <span></span>
+              </p>
+              <BtnDelete className="btnDelete" id={index} onClick={onDelete} />
+            </li>
+          ))}
+        </ul>
+      </div>
       <form onSubmit={onSubmit}>
         <input
           onChange={onChange}
           value={toDo}
           type="text"
-          placeholder="할 일을 입력하세요."
+          placeholder="여기에 할 일 추가하기"
         />
-        <button type="submit">확인</button>
+        <button className="btn_submit" type="submit"></button>
       </form>
-      <ul>
-        {toDos.map((item, index) => (
-          <li key={index} id={index}>
-            <p onClick={onCheck}>
-              {index + 1}. {item}
-            </p>
-            <BtnDelete id={index} onClick={onDelete} />
-          </li>
-        ))}
-      </ul>
-    </>
+    </div>
   );
 }
 export default App;
